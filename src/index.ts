@@ -1,9 +1,8 @@
+import env from "@/configs/env";
 import app from "@/app";
 import connectDB from "@/configs/db";
 
-const PORT = process.env.PORT;
-
-app.listen(PORT, async () => {
+app.listen(env.PORT, async () => {
   await connectDB();
-  console.log(`Server is listening at http://localhost:${PORT}`);
+  console.log(`Server is listening at http://localhost:${env.PORT}`);
 });
