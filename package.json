@@ -7,7 +7,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx --watch --env-file=.env src/index.ts",
     "build": "tsc && tsc-alias",
-    "start": "node --env-file=.env dist/index.js"
+    "start": "node --env-file=.env dist/index.js",
+    "db:pull": "drizzle-kit pull",
+    "db:push": "drizzle-kit push",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
   },
   "type": "module",
   "keywords": [],
@@ -15,10 +20,15 @@
   "license": "ISC",
   "packageManager": "pnpm@10.29.3",
   "dependencies": {
-    "express": "^5.2.1"
+    "drizzle-orm": "^0.45.2",
+    "express": "^5.2.1",
+    "pg": "^8.20.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
+    "@types/node": "^25.6.0",
+    "@types/pg": "^8.20.0",
+    "drizzle-kit": "^0.31.10",
     "tsc-alias": "^1.8.17",
     "tsup": "^8.5.1",
     "tsx": "^4.21.0",
