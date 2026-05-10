@@ -19,11 +19,17 @@ export const userRoles = pgTable(
   },
   (table) => [
     primaryKey({ name: "user_role_id", columns: [table.userId, table.roleId] }),
-    index("user_role_idx").on(table.roleId),
+    index("user_roles_role_id_idx").on(table.roleId),
   ],
 );
 
-export const userRolesRelations = relations(userRoles, ({ many }) => ({
-  user: many(users),
-  role: many(roles),
+export const userRolesRelations = relations(userRoles, ({ one }) => ({
+  user: one(users, {
+    fields: [userRoles.userId],
+    references: [users.id],
+  }),
+  role: one(roles, {
+    fields: [userRoles.roleId],
+    references: [roles.id],
+  }),
 }));

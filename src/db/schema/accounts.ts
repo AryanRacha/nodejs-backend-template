@@ -26,9 +26,9 @@ export const accounts = pgTable(
     provider: providerEnum("auth_provider").notNull(),
     providerUserId: varchar("provider_user_id", { length: 255 }).notNull(),
     passwordHash: text("password_hash"),
-    providerAccessToken: text("provider_access_token"),
-    provideRefreshToken: text("provider_refresh_token"),
-    providerTokenExpiresAt: timestamp("provider_token_expires_at", {
+    oauthAccessToken: text("oauth_access_token"),
+    oauthRefreshToken: text("oauth_refresh_token"),
+    oauthTokenExpiresAt: timestamp("provider_token_expires_at", {
       withTimezone: true,
     }),
     createdAt: timestamp("created_at", { withTimezone: true })

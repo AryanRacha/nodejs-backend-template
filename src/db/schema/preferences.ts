@@ -4,10 +4,12 @@ import { users } from "@/db/schema";
 
 export const preferences = pgTable("preferences", {
   userId: uuid("user_id")
-    .references(() => users.id)
+    .references(() => users.id, {
+      onDelete: "cascade",
+    })
     .primaryKey()
     .notNull(),
-  jsonb: jsonb("preferences").default({}).notNull(),
+  settings: jsonb("settings").default({}).notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true })
     .defaultNow()
     .notNull(),

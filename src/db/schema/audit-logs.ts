@@ -1,5 +1,6 @@
 import {
   index,
+  inet,
   jsonb,
   pgTable,
   text,
@@ -18,12 +19,10 @@ export const auditLogs = pgTable(
       onDelete: "set null",
     }),
     action: varchar("action", { length: 100 }).notNull(),
-    resourceType: varchar("rescource_type", { length: 100 }),
+    resourceType: varchar("resource_type", { length: 100 }),
     resourceId: varchar("resource_id", { length: 255 }),
     metadata: jsonb("metadata"),
-    ipAddress: varchar("ip_address", {
-      length: 255,
-    }),
+    ipAddress: inet("ip_address"),
     userAgent: text("user_agent"),
     createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()

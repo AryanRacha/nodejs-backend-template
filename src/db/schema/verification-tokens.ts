@@ -4,6 +4,7 @@ import {
   pgTable,
   text,
   timestamp,
+  unique,
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
@@ -24,7 +25,7 @@ export const verificationTokens = pgTable(
       onDelete: "cascade",
     }),
     identifier: varchar("identifier", { length: 255 }).notNull(),
-    tokenHash: text("token").notNull(),
+    verificationTokenHash: text("verification_token_hash").unique().notNull(),
     type: typeEnum("verification_token_type").notNull(),
     expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
     usedAt: timestamp("used_at", { withTimezone: true }),
@@ -33,8 +34,7 @@ export const verificationTokens = pgTable(
       .notNull(),
   },
   (table) => [
-    index("verification_tokens_identifier_idx").on(table.identifier),
-    index("verification_tokens_type_idx").on(table.type),
+    unique("identifier_type_unique").on(table.identifier, table.type),
     index("verification_tokens_expires_at_idx").on(table.expiresAt),
   ],
 );

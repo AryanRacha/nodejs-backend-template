@@ -3,8 +3,8 @@ import {
   text,
   timestamp,
   uuid,
-  varchar,
   index,
+  inet,
 } from "drizzle-orm/pg-core";
 import { users } from "@/db/schema";
 import { relations } from "drizzle-orm";
@@ -18,10 +18,8 @@ export const sessions = pgTable(
         onDelete: "cascade",
       })
       .notNull(),
-    refreshTokenHash: text("refresh_token_hash").notNull(),
-    ipAddress: varchar("ip_address", {
-      length: 255,
-    }),
+    refreshTokenHash: text("refresh_token_hash").unique().notNull(),
+    ipAddress: inet("ip_address"),
     userAgent: text("user_agent"),
     deviceInfo: text("device_info"),
     expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
@@ -36,9 +34,11 @@ export const sessions = pgTable(
       .notNull(),
   },
   (table) => [
-    index("sessions_user_id_idx").on(table.userId),
-    index("sessions_expires_at_idx").on(table.expiresAt),
-    index("sessions_revoked_at_idx").on(table.revokedAt),
+    index("sessions_active_lookup_idx").on(
+      table.userId,
+      table.revokedAt,
+      table.expiresAt,
+    ),
   ],
 );
 
