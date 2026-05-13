@@ -1,11 +1,18 @@
 import db from "@/db";
+import logger from "@/utils/logger";
+import { DrizzleQueryError } from "drizzle-orm";
 
 const connectDB = async () => {
   try {
     await db.execute(`SELECT 1`);
-    console.log("DB Connected!");
+    logger.info("DB Connected!");
   } catch (error) {
-    console.error("DB CONNECTION ERROR: ", error);
+    if (error instanceof DrizzleQueryError) {
+      logger.error(error.message, error.cause);
+    } else {
+      logger.error("DB Connection Failed!", error);
+    }
+
     process.exit(1);
   }
 };

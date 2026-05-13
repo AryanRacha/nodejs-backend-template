@@ -9,3 +9,4 @@ This Node.js Backend Template follows module based architecture and has complete
 - **Database:** PostgreSQL
 - **ORM:** Drizzle ORM
 - **Validation:** Zod
+- **Logging:** Winston
