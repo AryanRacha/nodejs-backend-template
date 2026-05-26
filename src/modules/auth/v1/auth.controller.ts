@@ -1,20 +1,42 @@
 import ApiResponse from "@/utils/ApiResponse";
 import { Request, Response } from "express";
+import { ValidRequest } from "@/types/request";
 import { StatusCodes } from "http-status-codes";
+import {
+  Register,
+  Login,
+  ResendEmail,
+  VerifyEmail,
+  ForgotPassword,
+  ResetPassword,
+  ChangePassword,
+} from "../auth.types";
 
-const register = async (req: Request, res: Response) => {
-  res
-    .status(StatusCodes.OK)
-    .json(ApiResponse.success({ message: "Register Successful!" }));
+const register = async (req: ValidRequest<Register>, res: Response) => {
+  const { email, password } = req.body;
+
+  res.status(StatusCodes.OK).json(
+    ApiResponse.success({
+      message: "Register Successful!",
+      data: { email, password },
+    }),
+  );
 };
 
-const login = async (req: Request, res: Response) => {
-  res
-    .status(StatusCodes.OK)
-    .json(ApiResponse.success({ message: "Login Successful!" }));
+const login = async (req: ValidRequest<Login>, res: Response) => {
+  const { email, password } = req.body;
+
+  res.status(StatusCodes.OK).json(
+    ApiResponse.success({
+      message: "Login Successful!",
+      data: { email, password },
+    }),
+  );
 };
 
 const logout = async (req: Request, res: Response) => {
+  res.clearCookie("refreshToken");
+
   res
     .status(StatusCodes.OK)
     .json(ApiResponse.success({ message: "Logout Successful!" }));
@@ -32,31 +54,45 @@ const refresh = async (req: Request, res: Response) => {
     .json(ApiResponse.success({ message: "Refresh Successful!" }));
 };
 
-const resendEmail = async (req: Request, res: Response) => {
-  res
-    .status(StatusCodes.OK)
-    .json(ApiResponse.success({ message: "Resend Email Successful!" }));
+const resendEmail = async (req: ValidRequest<ResendEmail>, res: Response) => {
+  const { email } = req.body;
+
+  res.status(StatusCodes.OK).json(
+    ApiResponse.success({
+      message: "Resend Email Successful!",
+      data: { email },
+    }),
+  );
 };
 
-const verifyEmail = async (req: Request, res: Response) => {
+const verifyEmail = async (req: ValidRequest<VerifyEmail>, res: Response) => {
   res
     .status(StatusCodes.OK)
     .json(ApiResponse.success({ message: "Verify Email Successful!" }));
 };
 
-const forgotPassword = async (req: Request, res: Response) => {
+const forgotPassword = async (
+  req: ValidRequest<ForgotPassword>,
+  res: Response,
+) => {
   res
     .status(StatusCodes.OK)
     .json(ApiResponse.success({ message: "Forgot Password Successful!" }));
 };
 
-const resetPassword = async (req: Request, res: Response) => {
+const resetPassword = async (
+  req: ValidRequest<ResetPassword>,
+  res: Response,
+) => {
   res
     .status(StatusCodes.OK)
     .json(ApiResponse.success({ message: "Reset Password Successful!" }));
 };
 
-const changePassword = async (req: Request, res: Response) => {
+const changePassword = async (
+  req: ValidRequest<ChangePassword>,
+  res: Response,
+) => {
   res
     .status(StatusCodes.OK)
     .json(ApiResponse.success({ message: "Change Password Successful!" }));

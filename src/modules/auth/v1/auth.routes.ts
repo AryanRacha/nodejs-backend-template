@@ -1,17 +1,38 @@
 import { Router } from "express";
+import authValidation from "@/modules/auth/auth.validation";
 import authController from "@/modules/auth/v1/auth.controller";
+import validate from "@/middlewares/validation.middleware";
 
 const authRouter = Router();
 
-authRouter.post("/register", authController.register);
-authRouter.post("/login", authController.login);
-authRouter.post("/refresh", authController.refresh);
+authRouter.post(
+  "/register",
+  validate(authValidation.register),
+  authController.register,
+);
+authRouter.post("/login", validate(authValidation.login), authController.login);
 
-authRouter.post("/verify-email", authController.verifyEmail);
-authRouter.post("/resend-email", authController.resendEmail);
+authRouter.post(
+  "/resend-email",
+  validate(authValidation.resendEmail),
+  authController.resendEmail,
+);
+authRouter.post(
+  "/verify-email",
+  validate(authValidation.verifyEmail),
+  authController.verifyEmail,
+);
 
-authRouter.post("/forgot-password", authController.forgotPassword);
-authRouter.post("/reset-password", authController.resetPassword);
+authRouter.post(
+  "/forgot-password",
+  validate(authValidation.forgotPassword),
+  authController.forgotPassword,
+);
+authRouter.post(
+  "/reset-password",
+  validate(authValidation.resetPassword),
+  authController.resetPassword,
+);
 
 authRouter.get("/google", authController.google);
 authRouter.get("/google/callback", authController.googleCallback);
@@ -20,7 +41,13 @@ authRouter.get("/github", authController.github);
 authRouter.get("/github/callback", authController.githubCallback);
 
 //protected (will add later)
-authRouter.patch("/change-password", authController.changePassword);
+authRouter.post("/refresh", authController.refresh);
+
+authRouter.patch(
+  "/change-password",
+  validate(authValidation.changePassword),
+  authController.changePassword,
+);
 
 authRouter.post("/logout", authController.logout);
 authRouter.post("/logout-all", authController.logoutAll);
